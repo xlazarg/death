@@ -1,4 +1,4 @@
 # DE&TH Detection Repository
 death is coming
 
-Repo for the Detection Engineering and Threat hunting course.Includes detections in the from of sigma,yara or snort rules.
+Repository for the for the Detection Engineering & Threat Hunting (DE&TH) course. Within this project there are detectors for file detections via YARA, network detections via snort, and a wider range of use-cases available in the SigmaHQ project.
