@@ -21,7 +21,7 @@ condition:
     pe.is_signed and // The executable is unsigned
     filesize < 100KB and
     (   (pe.version_info["OriginalFilename"] contains "Stub.exe" and all of ($l*))
-        or 1 of ($h*)
+        or all of ($h*)
     )
 } 
 
