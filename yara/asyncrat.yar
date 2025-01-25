@@ -13,9 +13,10 @@ strings:
     $l2 = "/c taskkill.exe /im chrome.exe /f" wide
     $l3 = "cmd.exe" wide
     $l4 = "127.0.0.1" wide
-    $l5 = "wallets" wide 
-    $h1="\\nuR\\noisreVtnerruC\\swodniW\\tfosorciM\\erawtfoS" // High confidence strings    
-    $h2=/\\User Data\\Default\\Local Extension Settings\\[a-z]{32}/ wide
+    $l5 = "wallets" wide
+    $h1 = "\\nuR\\noisreVtnerruC\\swodniW\\tfosorciM\\erawtfoS" // High confidence strings    
+    $h2 = /\\User Data\\Default\\Local Extension Settings\\[a-z]{32}/ wide
+    $h3 = "\\Log.tmp" fullword wide
 condition:
     pe.is_pe and not
     pe.is_signed and // The executable is unsigned
