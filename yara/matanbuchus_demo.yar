@@ -18,6 +18,7 @@ strings:
     $l7 = "GET_MSG_BODY" wide
     $l8 = "CHOSEN_DATA_PUM" wide
 condition:
+    filesize < 750KB and
     pe.is_pe and
     pe.imports("KERNEL32.DLL","IsDebuggerPresent") and
     pe.exports("DllRegisterServer") and
