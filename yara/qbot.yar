@@ -17,7 +17,7 @@ strings:
     $l6 = "Tdk_keymap_get_type"  // Strings related to GTK
     $l7 = "Tdk_gc_values_mask_get_type" 
     $l8 = "Tdk_get_default_root_window" 
-    $l9 = "LoadLibraryA" // Other uncommon imported functions.
+    $l9 = "LoadLibraryA" // Other imported functions.
     $l10 = "SetClipboardData"
     $l11 = "TrackMouseEvent"
 condition:
