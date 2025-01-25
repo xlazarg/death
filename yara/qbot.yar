@@ -26,6 +26,6 @@ condition:
     filesize < 1000KB and
     pe.imports("USER32.DLL","GetForegroundWindow") and // winapi functions related to keylogging
     pe.imports("USER32.DLL","MapVirtualKeyA") and
-    5 of ($l*)
+    all of ($l*)
 } 
 
