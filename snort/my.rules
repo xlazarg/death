@@ -1,4 +1,21 @@
-#|05|=length of domain name
-#|02|=length of tld
-#|00|=nullbyte,terminator
+#Demo MIrai
+#|05|:length of domain name
+#|02|:length of tld
+#|00|:nullbyte,terminator
 alert udp $HOME_NET any -> any 53 (msg:"Mirai related DNS query observed"; content:"|05|rooty|2|cc|00|";sid:1000001;)
+
+
+#qbot
+# Eteri Boyiuhuspw,fscej.org: organizationalUnitName and commonName from the subject field of the certificate related to the TLS key exchange between the C2(98.178.242.28) and the victim(10.12.9.101).
+# Ocoa Jeoqkfmz,Dqimuc Saoamaf Sngiantob Kjujtk: localityName and organizationName from the subject field of the certificate related to the TLS key exchange between the C2(98.178.242.28) and the victim(10.12.9.101).
+# I assumed none of the certificate strings are randomized when creating the rule.
+alert tcp any 443 -> $HOME_NET any (msg:"qbot C2 certificate strings detected"; content:"Eteri Boyiuhuspw";content:"fscej.org";content:"Ocoa Jeoqkfmz";content:"Dqimuc Saoamaf Sngiantob Kjujtk";sid:1000002;)
+
+
+
+
+
+
+
+
+
