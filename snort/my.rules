@@ -1,15 +1,45 @@
-#Demo MIrai
+#Demo Mirai
 #|05|:length of domain name
 #|02|:length of tld
 #|00|:nullbyte,terminator
 alert udp $HOME_NET any -> any 53 (msg:"Mirai related DNS query observed"; content:"|05|rooty|2|cc|00|";sid:1000001;)
 
 
-#qbot
+#Lab1 qbot
 # Eteri Boyiuhuspw,fscej.org: organizationalUnitName and commonName from the subject field of the certificate related to the TLS key exchange between the C2(98.178.242.28) and the victim(10.12.9.101).
 # Ocoa Jeoqkfmz,Dqimuc Saoamaf Sngiantob Kjujtk: localityName and organizationName from the subject field of the certificate related to the TLS key exchange between the C2(98.178.242.28) and the victim(10.12.9.101).
 # I assumed none of the certificate strings are randomized when creating the rule.
 alert tcp any 443 -> $HOME_NET any (msg:"qbot C2 certificate strings detected"; content:"Eteri Boyiuhuspw";content:"fscej.org";content:"Ocoa Jeoqkfmz";content:"Dqimuc Saoamaf Sngiantob Kjujtk";sid:1000002;)
+
+#Lab2 astaroth
+# DNS: f4iidk.felipeemarlimarketingl.link,yiuahd.sophiaemarlibuffetme.link,vjur2fho2j3.clus.ga,wraa5f.assessirianricoadvocacia.cloud,www.creditcardflyers.com
+# These are just domain names which can be easily changed I am going to ignore these all together and aim to create a more general Detection/Hunting rule.
+# HTTP:
+# f4iidk.felipeemarlimarketingl.link(104.21.50.34):
+    # User-Agent: Microsoft BITS/7.8
+    # Request-URI: /?77015596620613945
+alert tcp $HOME_NET any -> any 80 (msg:"Astaroth malware delivery related User-Agent and URI patterns."; content:"User-Agent:|20|Microsoft|20|BITS";pcre:"/\?[0-9]{17}/";sid:1000003;)
+# yiuahd.sophiaemarlibuffetme.link(172.67.199.222):
+    # UA-CPU: AMD64
+    # User-Agent: .NET
+    # Request-URI: /?1/
+alert tcp $HOME_NET any -> any 80 (msg:"Astaroth related header patterns";pcre:"/\/\?[0-9]\//"; content:"UA-CPU";content:"User-Agent";content:".NET",within 100;sid:1000004;)
+# vjur2fho2j3.clus.ga(172.67.200.87):
+    # No useful strings found.
+ # wraa5f.assessirianricoadvocacia.cloud(172.67.221.34):
+    # Request-URI:/TGGZXKNFF/QZ651XX32JB7/WV4YX6/Visualizar_NFe35000012022202382673_953.80768.48080z64y64 , /C13iXUN4XvrC3/lzXQFOhWzChrNh646U9/N3GF9LV7KP9NHNP4T2L3K9EU6HEK1/Visualizar_NFe35000012022202382673AvDk.T036
+alert tcp $HOME_NET any -> any 80 (msg:"Astaroth related header patterns";pcre:"/\/[a-zA-Z0-9]{4,}\/[a-zA-Z0-9]{4,}\/[a-zA-Z0-9]{4,}\/Visualizar/";sid:1000005;)
+# www.creditcardflyers.com(38.86.171.155):
+    # No suspicious strings present the site is also clean only used for redirection
+#Lab3
+
+
+
+
+
+
+
+
 
 
 
