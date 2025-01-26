@@ -1,0 +1,4 @@
+#|05|=length of domain name
+#|02|=length of tld
+#|00|=nullbyte,terminator
+alert udp $HOME_NET any -> any 53 (msg:"Mirai related DNS query observed"; content:"|05|rooty|2|cc|00|";sid:1000001;)
