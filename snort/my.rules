@@ -31,7 +31,15 @@ alert tcp $HOME_NET any -> any 80 (msg:"Astaroth related header patterns";pcre:"
 alert tcp $HOME_NET any -> any 80 (msg:"Astaroth related header patterns";pcre:"/\/[a-zA-Z0-9]{4,}\/[a-zA-Z0-9]{4,}\/[a-zA-Z0-9]{4,}\/Visualizar/";sid:1000005;)
 # www.creditcardflyers.com(38.86.171.155):
     # No suspicious strings present the site is also clean only used for redirection
-#Lab3
+
+#Lab3 IceID
+# C2 IPS: 193.109.120.51,146.190.25.131,46.21.153.211
+# Cobalt Strike: 23.106.223.135,104.238.220.131,172.93.179.196
+# 193.109.120.51,146.190.25.131,46.21.153.211:
+    # stateOrProvinceName=Some-State
+    # commonName=localhost
+    # organizationName=Internet Widgits Pty Ltd
+alert tcp any 443 -> $HOME_NET any (msg:"IceID C2 related TLS certificate patterns";content:"Some-State";content:"localhost";content:"Internet Widgits Pty Ltd";sid:1000006;)
 
 
 
