@@ -32,7 +32,7 @@ strings:
 condition:
     pe.is_pe and not
     pe.is_signed and // The executable is unsigned
-    filesize < 1500KB and
+    filesize < 1000KB and
     all of ($l*) or 5 of ($h*)
 } 
 
