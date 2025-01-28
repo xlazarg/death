@@ -39,7 +39,7 @@ alert tcp $HOME_NET any -> any 80 (msg:"Astaroth related header patterns";pcre:"
     # stateOrProvinceName=Some-State
     # commonName=localhost
     # organizationName=Internet Widgits Pty Ltd
-alert tcp any 443 -> $HOME_NET any (msg:"IceID C2 related TLS certificate patterns";content:"Some-State";content:"localhost";content:"Internet Widgits Pty Ltd";sid:1000006;)
+alert tcp any 443 -> $HOME_NET any (msg:"IcedID C2 related TLS certificate patterns";content:"Some-State";content:"localhost";content:"Internet Widgits Pty Ltd";sid:1000006;)
 
 
 
