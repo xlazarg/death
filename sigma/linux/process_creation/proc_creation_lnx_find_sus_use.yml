@@ -1,0 +1,47 @@
+title: Suspicious Use of find - GTFOBins
+id: d799f8ff-05b0-495f-9615-462d9fd991a0
+status: experimental
+description: Detects the use of find to spawn system shells or write files to the system.
+references:
+    - https://gtfobins.github.io/gtfobins/find/
+author: lazarg
+date: 2025-01-28
+tags:
+    - attack.privilege_escalation
+    - attack.discovery
+    - attack.t1083
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    bin:
+        Image|endswith: '/find'
+    cmdline_shell:
+        CommandLine|contains: '-exec'
+    cmdline_write:
+        CommandLine|contains: '-fprintf'
+    cmdline_bin:
+        CommandLine|contains:
+            - '/bin/sh'
+            - '/bin/bash'
+            - '/bin/zsh'
+            - '/bin/fish'
+            - '/bin/ksh'
+            - '/bin/dash'
+            - '/bin/tcsh'
+            - '/bin/mksh'
+            - '/bin/yash'
+            - '/bin/xonsh'
+    cmdline_sensitive:
+        CommandLine|contains:
+            - 'passwd'
+            - 'shadow'
+            - 'sudoers'
+            - 'sshd_config'
+            - 'authorized_keys'
+            - 'hosts'
+            - 'crontab'
+    condition: bin and ((cmdline_shell and cmdline_bin) or (cmdline_write and cmdline_sensitive))
+falsepositives:
+    - Administrative or user activity; unlikely
+level: high
