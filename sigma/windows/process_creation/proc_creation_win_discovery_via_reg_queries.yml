@@ -19,7 +19,7 @@ detection:
     selection_reg:
         Image|endswith: '\reg.exe'
         CommandLine|contains: 'query'
-        CommandLine|windash|contains: '-v'
+        CommandLine|contains|windash: '-v'
     selection_powershell:
         Image|endswith:
             - '\powershell.exe'

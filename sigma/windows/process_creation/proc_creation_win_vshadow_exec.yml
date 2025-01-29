@@ -16,7 +16,7 @@ logsource:
 detection:
     selection:
         ParentImage|endswith: '\vshadow.exe'
-        ParentCommandLine|windash|contains: '-exec' # This condition is included to filter out legitimate vshadow activity.
+        ParentCommandLine|contains|windash: '-exec' # This condition is included to filter out legitimate vshadow activity.
         Image|contains:  # For threat hunting purposes this section could be removed.
             - '\windows\system32\microsoft\crypto\rsa\machinekeys'
             - '\windows\system32\tasks_migrated\microsoft\windows\pla\system'
