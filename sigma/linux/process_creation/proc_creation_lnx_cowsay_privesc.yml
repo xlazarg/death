@@ -1,0 +1,29 @@
+title: Privilege Escalation via cowsay
+id: 57a949fe-0bce-4c4f-bbf8-560e72ade8b0
+status: experimental
+description: Detects cowsay execution with strings related to common shells.
+references:
+    - https://gtfobins.github.io/gtfobins/cowsay/
+author: lazarg
+date: 2025-01-29
+tags:
+    - attack.discovery
+    - attack.t1083
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_img:
+        Image|endswith: '/cowsay'
+        CommandLine|contains: ' -f '
+    selection_cli:
+        CommandLine|contains:
+            - '/bin/bash'
+            - '/bin/dash'
+            - '/bin/fish'
+            - '/bin/sh'
+            - '/bin/zsh'
+    condition: selection_img and selection_cli
+falsepositives:
+    - Unknown
+level: high

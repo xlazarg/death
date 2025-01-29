@@ -1,0 +1,41 @@
+title: Execution From Suspicious Path via Vshadow
+id: 974a88fe-37b2-48b8-aa5e-440b8fa13074
+status: experimental
+description: Detects executable invocation from suspicious paths via vshadow.
+references:
+    - https://lolbas-project.github.io/lolbas/OtherMSBinaries/Vshadow/
+    - https://gist.github.com/mattifestation/5f9de750470c9e0e1f9c9c33f0ec3e56
+author: lazarg
+date: 2025-01-29
+tags:
+    - attack.defense-evasion
+    - attack.t1127
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\vshadow.exe'
+        ParentCommandLine|windash|contains: '-exec' # This condition is included to filter out legitimate vshadow activity.
+        Image|contains:  # For threat hunting purposes this section could be removed.
+            - '\windows\system32\microsoft\crypto\rsa\machinekeys'
+            - '\windows\system32\tasks_migrated\microsoft\windows\pla\system'
+            - '\windows\syswow64\tasks\microsoft\windows\pla\system'
+            - '\windows\debug\wia'
+            - '\windows\system32\tasks'
+            - '\windows\syswow64\tasks'
+            - '\windows\tasks'
+            - '\windows\registration\crmlog'
+            - '\windows\system32\com\dmp'
+            - '\windows\system32\fxstmp'
+            - '\windows\system32\spool\drivers\color'
+            - '\windows\system32\spool\printers'
+            - '\windows\system32\spool\servers'
+            - '\windows\syswow64\com\dmp'
+            - '\windows\syswow64\fxstmp'
+            - '\windows\temp'
+            - '\windows\tracing'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high
