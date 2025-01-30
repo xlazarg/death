@@ -1,0 +1,53 @@
+name: Validate Sigma Rules
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events into any branch that isn't main or PR events for main
+  # Triggers only when Sigma rules are added, deleted or modified
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - 'sigma/**.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'sigma/**.yml'
+
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "validate"
+  validate:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install Sigma CLI and dependencies
+      run: |
+        sudo apt-get update && sudo apt-get install -y python3 python3-pip
+        pip3 install sigma-cli
+
+    - name: Validate rules
+      run: |
+        sigma check sigma
+
+    - name: Install Sigma CLI Elasticsearch backend
+      if: github.event_name == 'pull_request'
+      run: |
+        sigma plugin install elasticsearch
+
+    - name: Test that conversion does not fail
+      if: github.event_name == 'pull_request'
+      run: |
+        sigma convert -t lucene -f siem_rule_ndjson -p ecs_windows -o rules.ndjson sigma
+
+    - name: Test that the post-process script runs without exceptions
+      if: github.event_name == 'pull_request'
+      run: |
+        python3 scripts/post-process.py
