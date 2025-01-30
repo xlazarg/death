@@ -35,7 +35,7 @@ jobs:
 
     - name: Post-process rules in NDJSON
       run: |
-        python3 /home/kali/Desktop/death/scripts/post-process.py
+        python3 scripts/post-process.py
 
     - name: Deploy rules to ELK via Detections API
       env:
