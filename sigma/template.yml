@@ -1,0 +1,31 @@
+title: # Descriptive yet unalarming unless you have very high confidence of malicious activity.
+id: # Create a unique GUID for this detector i.e. https://www.guidgenerator.com/
+status: stable, test, experimental, deprecated, unsupported
+description: # Try to follow the flow of "What are we detecting, how is it used, why is it (bad|interesting|noteworthy)"
+author: # Your name
+references:
+  - # References ensure our rules have some source documentation as to what we're trying to accomplish.
+  - # It's also a good habit to provide the URL to any relevant MITRE ATT&ACK TTP
+  - # The more references the better as you may not remember why you made a rule when reviewing in the future.
+date: YYYY-MM-DD
+modified: YYYY-MM-DD # Optional unless the rule is being updated/modified.
+logsource:
+  category: process_creation # Ensure your logsource matches your intended data source
+  product: windows
+detection:
+  selection: # You can use any name for these variables and it may benefit you to use descriptive terms in your rules.
+   - # Match Logic
+  filter:
+    - # Exclusion Logic
+  condition: selection and not filter
+falsepositives:
+  - # Lists any false positives by generalized category i.e. RMM Tools, Administrators etc. 
+level: # low/medium/high/critical
+tags:
+  - # You can add any tag you wish, however, you should put mitre TTP, Software, and Group IDs when relevant. 
+  - # attack.t1548.002
+  - # attack.privilege_escalation
+  - # attack.s0129
+  - # attack.g1024
+  - # lolbas
+  - # ransomware
