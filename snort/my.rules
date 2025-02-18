@@ -13,7 +13,7 @@ alert tcp any 443 -> $HOME_NET any (msg:"qbot C2 certificate strings detected"; 
 
 #Lab2 astaroth
 # DNS: f4iidk.felipeemarlimarketingl.link,yiuahd.sophiaemarlibuffetme.link,vjur2fho2j3.clus.ga,wraa5f.assessirianricoadvocacia.cloud,www.creditcardflyers.com
-# These are just domain names which can be easily changed I am going to ignore these all together and aim to create a more general Detection/Hunting rule.
+# These are just easily changeable domain names. I am going to ignore these all together and aim to create a more general Detection/Hunting rule.
 # HTTP:
 # f4iidk.felipeemarlimarketingl.link(104.21.50.34):
     # User-Agent: Microsoft BITS/7.8
