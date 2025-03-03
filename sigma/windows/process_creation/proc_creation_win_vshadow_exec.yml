@@ -14,10 +14,12 @@ logsource:
     category: process_creation
     product: windows
 detection:
-    selection:
-        ParentImage|endswith: '\vshadow.exe'
-        ParentCommandLine|contains|windash: '-exec' # This condition is included to filter out legitimate vshadow activity.
-        Image|contains:  # For threat hunting purposes this section could be removed.
+    selection_img:
+        - Image|endswith: '\vshadow.exe'
+        - OriginalFileName: 'vshadow.exe'
+    selection_cli:
+        CommandLine|contains|windash: '-exec' # This condition is included to filter out legitimate vshadow activity.
+        CommandLine|contains:  # For threat hunting purposes this section could be removed.
             - '\windows\system32\microsoft\crypto\rsa\machinekeys'
             - '\windows\system32\tasks_migrated\microsoft\windows\pla\system'
             - '\windows\syswow64\tasks\microsoft\windows\pla\system'
@@ -35,7 +37,7 @@ detection:
             - '\windows\syswow64\fxstmp'
             - '\windows\temp'
             - '\windows\tracing'
-    condition: selection
+    condition: selection_img and selection_cli
 falsepositives:
     - Unknown
 level: high
