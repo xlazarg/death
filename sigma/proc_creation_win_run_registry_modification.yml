@@ -1,0 +1,32 @@
+title: Suspicious Run Registry Modification
+id: e7c49ca4-f788-4ee1-a434-a34ef2bbd4de
+status: test
+description: Detects modifications to Windows Registry Run keys, which are commonly used for establishing persistence by configuring programs to execute automatically at user or system startup.
+references:
+    - https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys
+    - https://www.atomicredteam.io/atomic-red-team/atomics/T1547.001#atomic-test-1---reg-key-run
+author: lazarg
+date: 2025-04-20
+tags:
+    - attack.persistence
+    - attack.t1547.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_cmd_reg:
+        Image|endswith: '\reg.exe'
+        CommandLine|contains: 'add'
+    selection_cmd_powershell:
+        Image|endswith:
+            - '\powershell.exe'
+            - '\pwsh.exe'
+        CommandLine|contains:
+            - 'Set-ItemProperty'
+            - 'sp'
+    selection_key:
+        CommandLine|contains: '\CurrentVersion\Run'
+    condition: 1 of selection_cmd_* and selection_key
+falsepositives:
+    - Unlikely
+level: high

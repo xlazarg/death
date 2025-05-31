@@ -1,0 +1,29 @@
+title: Encoded Payload Execution via PowerShell
+id: b6528597-451e-44a0-8779-5af12799199b
+status: test
+description: Detects PowerShell execution that includes the -EncodedCommand flag, which allows attackers to pass base64-encoded payloads to PowerShell. This is one of the most commonly used technique by adversaries.
+references:
+    - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_exe?view=powershell-5.1#-encodedcommand-base64encodedcommand
+    - https://www.atomicredteam.io/atomic-red-team/atomics/T1059.001#atomic-test-15---athpowershellcommandlineparameter--encodedcommand-parameter-variations
+author: lazarg
+date: 2025-04-20
+tags:
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith:
+              - '\powershell.exe'
+              - '\pwsh.exe'
+        - OriginalFileName:
+              - 'PowerShell.EXE'
+              - 'pwsh.dll'
+    selection_encoded:
+        CommandLine|windash|contains: '-e'  
+    condition: selection_img and selection_encoded
+falsepositives:
+    - Unknown
+level: low
