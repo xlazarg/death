@@ -1,0 +1,28 @@
+title: Live System Feature Modification Via Dism
+id: 35bfdc1c-2ebe-4168-8e36-45dd6855ccda
+status: test
+description: Detects live system feature modification via dism via suspicious command line flags.
+references:
+    - https://www.atomicredteam.io/atomic-red-team/atomics/T1197#atomic-test-1---bitsadmin-download-cmd
+author: lazarg
+date: 2025/06/20
+tags:
+    - attack.defense_evasion
+    - attack.persistence
+    - attack.t1197
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\Dism.exe'
+        - OriginalFileName: 'DISM.EXE'
+    selection_cmd:
+        CommandLine|contains: 
+        - '/online'
+        - '/Disable-Feature'
+        - '/quiet'
+    condition: selection_img and selection_cmd
+falsepositives:
+    - Unknown
+level: medium

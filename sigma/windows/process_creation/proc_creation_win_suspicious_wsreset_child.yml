@@ -1,0 +1,24 @@
+title: Suspicious WSReset.exe child process
+id: 1d31cb0a-ff0f-42db-befc-50215259cb30
+status: test
+description: Detects unusual child processes spawned by WSreset.exe, which may indicate misuse.
+references:
+    - https://lolbas-project.github.io/lolbas/Binaries/Wsreset/
+author: lazarg
+date: 2025/06/20
+tags:
+    - attack.privilege_escalation
+    - attack.defense_evasion
+    - attack.t1548.002
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\WSReset.exe'
+    filter:
+        - Image|endswith: '\conhost.exe'
+    condition: selection and not filter
+falsepositives:
+    - Unknown sub processes of WSReset.exe
+level: high

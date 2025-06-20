@@ -1,0 +1,23 @@
+title: Rclone Execution
+id: 35deea92-00ed-45de-9cd8-5d58ed1404de
+status: test
+description: Detects the execution of the RClone utility, commonly leveraged by ransomware for data exfiltration.
+references:
+    - https://www.atomicredteam.io/atomic-red-team/atomics/T1048.003#atomic-test-7---exfiltration-over-alternative-protocol---ftp---rclone
+    - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware
+author: lazarg
+date: 2025-06-20
+tags:
+    - attack.exfiltration
+    - attack.t1048.003
+logsource:
+    product: windows
+    category: process_creation
+detection:
+    selection:
+        - Image|endswith: '\rclone.exe'
+        - Description: 'Rsync for cloud storage'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

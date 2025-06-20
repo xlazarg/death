@@ -1,0 +1,24 @@
+title: Suspicious Shadow Copy Deletion Using Vssadmin
+id: b93bc02a-fe72-471f-ac94-66233be5d6e4
+status: experimental
+description: Detects the use of vssadmin.exe to delete all shadow copies silently, which is often performed by ransomware to prevent recovery.
+author: lazarg
+date: 2025/06/20
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith: '\vssadmin.exe'
+    CommandLine|contains|all:
+      - 'delete'
+      - 'shadows'
+      - '/all'
+      - '/quiet'
+  condition: selection
+falsepositives:
+  - Unknown
+level: high
+tags:
+  - attack.impact
+  - attack.t1490

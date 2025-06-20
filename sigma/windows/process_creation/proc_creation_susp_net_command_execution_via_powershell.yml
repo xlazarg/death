@@ -1,0 +1,27 @@
+title: Suspicious Net command execution Via Powershell
+id: e9d6f450-e2a3-4162-8bdf-7563cc302bdb
+status: test
+description: Detects potentially suspicious use of the net command executed through PowerShell.
+references:
+    - https://www.atomicredteam.io/atomic-red-team/atomics/T1087.002#atomic-test-1---enumerate-all-accounts-domain
+author: lazarg
+date: 2025/06/20
+tags:
+    - attack.discovery
+    - attack.t1087.002
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        Parent_Image|endswith:
+        - '\powershell.exe'
+        - '\pwsh.exe'
+    selection_cmd:
+        CommandLine|contains|all:
+        - 'net'
+        - '/domain'
+    condition: selection_img and selection_cmd
+falsepositives:
+    - Unknown
+level: medium
