@@ -1,0 +1,27 @@
+title: Windows Domain Trust Discovery via NLTEST
+id: d3c0d5ea-7c5d-45b5-9369-7e45c9fd1aaf
+status: stable
+description: |
+  Detects the use of nltest.exe to enumerate domain trust relationships.
+  This technique is often used by attackers during the reconnaissance phase
+  to map trust boundaries within an Active Directory environment.
+references:
+  - https://attack.mitre.org/techniques/T1482/
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/nltest
+author: lazarg
+date: 2025-07-01
+tags:
+  - attack.discovery
+  - attack.t1482
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: '\nltest.exe'
+    CommandLine|contains:
+      - '/domain_trusts'
+  condition: selection
+falsepositives:
+  - Domain administrators or IT support staff performing domain diagnostics
+level: medium

@@ -1,0 +1,44 @@
+title: LaZagne Credential Dumping Tool Execution via PE Metadata or Imphash
+id: 7bd143b7-46c4-44b3-84d2-ecb6e0ed9d83
+status: experimental
+description: |
+  Detects execution of the LaZagne credential dumping tool using PE metadata,
+  imphash values, or known image names. Useful for detecting renamed binaries
+  or stealthy execution attempts.
+references:
+  - https://github.com/AlessandroZ/LaZagne
+author: lazarg
+date: 2025-07-01
+tags:
+  - attack.credential_access
+  - attack.t1003.001
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_image_name:
+    Image|endswith:
+      - '\lazagne.exe'
+      - '\lazagne64.exe'
+      - '\lazagne-x64.exe'
+      - '\lazagne-x86.exe'
+  selection_pe_description:
+    Description|contains: 'LaZagne'
+  selection_pe_originalfilename:
+    OriginalFileName|contains: 'lazagne'
+  selection_imphash:
+    Hashes|contains:
+              - 'IMPHASH=ba5546933531fafa869b1f86a4e2a959'
+              - 'IMPHASH=7aa1951517b3b8d38b12f874b66196c9'
+              - 'IMPHASH=be10bb45cef8dcc6869b921dd20884ae'
+              - 'IMPHASH=4e3e7ce958acceeb80e70eeb7d75870e'
+              - 'IMPHASH=fc40519af20116c903e3ff836e366e39'
+              - 'IMPHASH=1975641ebd67bc0f49282a7b8555b7b2'
+              - 'IMPHASH=468ad8de9dcf3ce7a0becc5916ec6adb'
+              - 'IMPHASH=e5d81cf6a49d9472d6de8c1764efdfb4'
+              - 'IMPHASH=b87afca7a1175b7eb49b7c1eb6d58adf'
+
+  condition: selection_image_name or selection_pe_description or selection_pe_originalfilename or selection_imphash
+falsepositives:
+  - Legitimate use in red teaming scenarios
+level: high

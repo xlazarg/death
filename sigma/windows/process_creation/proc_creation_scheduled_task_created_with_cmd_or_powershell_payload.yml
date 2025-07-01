@@ -1,0 +1,26 @@
+title: Scheduled Task Created via Schtasks with CMD or PowerShell Payload
+id: 0b0b0b12-8fbe-4f99-9428-8e829e0fd00b
+status: experimental
+description: Detects the use of schtasks.exe to create scheduled tasks where the payload includes cmd.exe or powershell.exe, which may indicate suspicious script-based task scheduling.
+author: lazarg
+date: 2025-07-01
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_schtasks:
+    Image|endswith: '\schtasks.exe'
+    CommandLine|contains:
+      - '/create'
+  selection_payload:
+    CommandLine|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+  condition: selection_schtasks and selection_payload
+falsepositives:
+  - Administrative scripts or software installation routines that legitimately schedule tasks
+level: medium
+tags:
+  - attack.execution
+  - attack.persistence
+  - attack.t1053.005

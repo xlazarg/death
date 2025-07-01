@@ -1,0 +1,24 @@
+title: psexec.py Named Pipe Pattern
+id: 8d530851-9e5a-4d76-996c-7a88378174f7
+status: test
+description: Detects the creation of a named pipe matching the pattern commonly used by psexec.py.
+references:
+    - https://github.com/fortra/impacket/blob/master/examples/psexec.py
+author: lazarg
+date: 2025-06-20
+tags:
+    - attack.lateral-movement
+    - attack.t1021.002
+logsource:
+    product: windows
+    category: pipe_created
+detection:
+    selection:
+        PipeName|contains: 
+            - 'RemCom_stdin'
+            - 'RemCom_stdout'
+            - 'RemCom_stderr'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium
