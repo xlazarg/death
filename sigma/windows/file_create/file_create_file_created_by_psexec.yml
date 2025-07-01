@@ -1,0 +1,24 @@
+title: Suspicious Script or Executable File Created by PSEXESVC.exe
+id: 79f94801-258d-4b7f-9e08-710ee0ff9d87
+status: experimental
+description: Detects .exe, .ps1, or .bat files created by the PSEXESVC.exe process, which may indicate PsExec usage for remote command execution.
+author: lazarg
+date: 2025-07-01
+logsource:
+  product: windows
+  category: file_create
+detection:
+  selection:
+    Image|endswith: '\PSEXESVC.exe'
+    TargetFilename|endswith:
+      - '.exe'
+      - '.ps1'
+      - '.bat'
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+tags:
+tags:
+  - attack.lateral-movement
+  - attack.t1021.002

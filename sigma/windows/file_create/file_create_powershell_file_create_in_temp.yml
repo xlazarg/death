@@ -1,0 +1,21 @@
+title: Potential File Creation in Temp Folder via PowerShell
+id: 96194564-4605-4e91-bee4-68eaeac4caf5
+description: Detects PowerShell creating files in the user's Temp directory, which may indicate malicious activity like staging payloads.
+status: experimental
+author: lazarg
+date: 2025/06/20
+logsource:
+  category: file_create
+  product: windows
+detection:
+  selection:
+    Image|endswith: '\powershell.exe'
+    TargetFilename|contains:
+      - '\AppData\Local\Temp\'
+  condition: selection
+falsepositives:
+  - Legitimate scripts that create temp files
+level: medium
+tags:
+    - attack.collection
+    - attack.t1074.001
